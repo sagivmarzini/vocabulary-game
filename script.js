@@ -211,15 +211,6 @@ function levelUp() {
         progressBar.style.width = '0%';
         updateStats();
     }, 300);
-
-    // Increase challenge
-    if (level % 3 === 0 && vocabulary.length > 20) {
-        // Every 3 levels, remove one option to make it harder
-        const optionToRemove = Math.min(optionsEl.children.length - 2, 1);
-        for (let i = 0; i < optionToRemove; i++) {
-            optionsEl.removeChild(optionsEl.lastChild);
-        }
-    }
 }
 
 function switchTheme(e) {
@@ -248,5 +239,5 @@ window.onload = function() {
         startGame();
     }
 
-    document.getElementById('resetButton').addEventListener('click', resetGame);
 };
+document.getElementById('resetButton').addEventListener('click', resetGame);
