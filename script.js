@@ -1,11 +1,11 @@
 function saveGameState() {
     const gameState = {
-    vocabulary: vocabulary,
-    score: score,
-    streak: streak,
-    level: level,
-    progress: progress,
-    wordsToNextLevel: wordsToNextLevel
+        vocabulary: vocabulary,
+        score: score,
+        streak: streak,
+        level: level,
+        progress: progress,
+        wordsToNextLevel: wordsToNextLevel
     };
     localStorage.setItem('VocabGameState', JSON.stringify(gameState));
 }
@@ -13,14 +13,14 @@ function saveGameState() {
 function loadGameState() {
     const savedState = localStorage.getItem('VocabGameState');
     if (savedState) {
-    const gameState = JSON.parse(savedState);
-    vocabulary = gameState.vocabulary;
-    score = gameState.score;
-    streak = gameState.streak;
-    level = gameState.level;
-    progress = gameState.progress;
-    wordsToNextLevel = gameState.wordsToNextLevel;
-    return true;
+        const gameState = JSON.parse(savedState);
+        vocabulary = gameState.vocabulary;
+        score = gameState.score;
+        streak = gameState.streak;
+        level = gameState.level;
+        progress = gameState.progress;
+        wordsToNextLevel = gameState.wordsToNextLevel;
+        return true;
     }
     return false;
 }
@@ -150,11 +150,11 @@ function nextQuestion() {
 
     optionsEl.innerHTML = '';
     options.forEach(option => {
-    const button = document.createElement('button');
-    button.className = 'option-btn';
-    button.textContent = option;
-    button.onclick = () => checkAnswer(button, option);
-    optionsEl.appendChild(button);
+        const button = document.createElement('button');
+        button.className = 'option-btn';
+        button.textContent = option;
+        button.onclick = () => checkAnswer(button, option);
+        optionsEl.appendChild(button);
     });
 }
 
@@ -195,17 +195,17 @@ function updateStats() {
 }
 
 function levelUp() {
-        level++;
-        progress = 0;
-        levelEl.textContent = level;
-        
-        // Calculate new words required for next level
-        wordsToNextLevel = 2 * Math.pow(level, 2);
-        
-        // Add pop-bob animation
-        progressBar.classList.add('pop-bob');
-        levelEl.parentElement.classList.add('pop-bob');
-        setTimeout(() => {
+    level++;
+    progress = 0;
+    levelEl.textContent = level;
+    
+    // Calculate new words required for next level
+    wordsToNextLevel = 2 * Math.pow(level, 2);
+    
+    // Add pop-bob animation
+    progressBar.classList.add('pop-bob');
+    levelEl.parentElement.classList.add('pop-bob');
+    setTimeout(() => {
         progressBar.classList.remove('pop-bob');
         levelEl.parentElement.classList.remove('pop-bob');
         progressBar.style.width = '0%';
