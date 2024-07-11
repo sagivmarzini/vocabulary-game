@@ -8,7 +8,7 @@
     --incorrect-color: #F44336;
   }
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Rubik", sans-serif;
     background-color: var(--background-color);
     margin: 20px;
     padding: 0;
