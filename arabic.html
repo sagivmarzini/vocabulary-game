@@ -1,0 +1,511 @@
+<html><head><base href="https://websim.ai/c/addictive-language-learning-game/arabic-vocab-master-refined" />
+<title>ArabicQuest: Vocabulary Master</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary-color: #006A6A;
+    --secondary-color: #7EBCB2;
+    --tertiary-color: #E8F3F3;
+    --background-color: #E8F3F3;
+    --text-color: #006A6A;
+    --correct-color: #4CAF50;
+    --incorrect-color: #F44336;
+  }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+  }
+  .container {
+    background-color: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  .upload-area {
+    border: 3px dashed var(--secondary-color);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .upload-area:hover {
+    background-color: var(--tertiary-color);
+    transform: scale(1.02);
+  }
+  #fileInput {
+    display: none;
+  }
+  .btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+  #gameArea {
+    display: none;
+    margin-top: 2rem;
+  }
+  #question {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    font-weight: bold;
+  }
+  #options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .option-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .option-btn:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .option-btn.correct {
+    background-color: var(--correct-color);
+  }
+  .option-btn.incorrect {
+    background-color: var(--incorrect-color);
+  }
+  .progress-container {
+    width: 100%;
+    background-color: var(--tertiary-color);
+    border-radius: 10px;
+    margin-top: 1rem;
+    overflow: hidden;
+  }
+  #progressBar {
+    width: 0%;
+    height: 20px;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    transition: width 0.5s ease-in-out;
+  }
+  .stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  .stat {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+  }
+  @keyframes popBob {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+  .pop-bob {
+    animation: popBob 0.3s ease-in-out;
+  }
+  .theme-switch-wrapper {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+  }
+  .theme-switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+  }
+  .theme-switch input {
+    display: none;
+  }
+  .slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    border-radius: 34px;
+  }
+  .slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "☀️";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+  }
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  input:checked + .slider:before {
+    transform: translateX(26px);
+    content: "🌙";
+  }
+  body.dark-theme {
+    --background-color: #003333;
+    --text-color: #ffffff;
+  }
+  .dark-theme .container {
+    background-color: #004444;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  .dark-theme .upload-area {
+    border-color: #00a598;
+    color: #ffffff;
+  }
+  .dark-theme .btn {
+    background-color: #00a598;
+    color: #ffffff;
+  }
+  .dark-theme .option-btn {
+    background-color: #00a598;
+    color: #ffffff;
+  }
+  .dark-theme .option-btn:hover {
+    background-color: #00cec4;
+  }
+  .dark-theme .progress-container {
+    background-color: #005555;
+  }
+  .dark-theme .stat {
+    background-color: #00a598;
+    color: #ffffff;
+  }
+  .dark-theme #question {
+    color: #ffffff;
+  }
+  .dark-theme .option-btn.correct {
+    background-color: var(--correct-color);
+    color: #ffffff;
+  }
+  .dark-theme .option-btn.incorrect {
+    background-color: var(--incorrect-color);
+    color: #ffffff;
+  }
+</style>
+</head>
+<body>
+  <div class="theme-switch-wrapper">
+    <label class="theme-switch" for="checkbox">
+      <input type="checkbox" id="checkbox" />
+      <div class="slider round"></div>
+    </label>
+  </div>
+  <div class="container">
+    <div id="uploadSection">
+      <div class="upload-area" id="dropArea">
+        <p>Drag and drop your CSV file here or click to select</p>
+        <input type="file" id="fileInput" accept=".csv" />
+        <button class="btn" onclick="document.getElementById('fileInput').click()">Select File</button>
+      </div>
+    </div>
+    <div id="gameArea">
+      <div class="progress-container">
+        <div id="progressBar"></div>
+      </div>
+      <div class="stats">
+        <span class="stat">Score: <span id="score">0</span></span>
+        <span class="stat">Streak: <span id="streak">0</span></span>
+        <span class="stat">Level: <span id="level">1</span></span>
+      </div>
+      <h2 id="question"></h2>
+      <div id="options"></div>
+    </div>
+  </div>
+
+  <script>
+    function saveGameState() {
+      const gameState = {
+        vocabulary: vocabulary,
+        score: score,
+        streak: streak,
+        level: level,
+        progress: progress,
+        wordsToNextLevel: wordsToNextLevel
+      };
+      localStorage.setItem('arabicVocabGameState', JSON.stringify(gameState));
+    }
+
+    function loadGameState() {
+      const savedState = localStorage.getItem('arabicVocabGameState');
+      if (savedState) {
+        const gameState = JSON.parse(savedState);
+        vocabulary = gameState.vocabulary;
+        score = gameState.score;
+        streak = gameState.streak;
+        level = gameState.level;
+        progress = gameState.progress;
+        wordsToNextLevel = gameState.wordsToNextLevel;
+        return true;
+      }
+      return false;
+    }
+
+    let vocabulary = [];
+    let score = 0;
+    let streak = 0;
+    let level = 1;
+    let progress = 0;
+    let wordsToNextLevel = 2;
+    let currentCorrectAnswer = '';
+    let isAnswering = false;
+    const dropArea = document.getElementById('dropArea');
+    const fileInput = document.getElementById('fileInput');
+    const uploadSection = document.getElementById('uploadSection');
+    const gameArea = document.getElementById('gameArea');
+    const questionEl = document.getElementById('question');
+    const optionsEl = document.getElementById('options');
+    const scoreEl = document.getElementById('score');
+    const streakEl = document.getElementById('streak');
+    const levelEl = document.getElementById('level');
+    const progressBar = document.getElementById('progressBar');
+    const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, preventDefaults, false);
+      document.body.addEventListener(eventName, preventDefaults, false);
+    });
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropArea.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, unhighlight, false);
+    });
+
+    dropArea.addEventListener('drop', handleDrop, false);
+    fileInput.addEventListener('change', handleFiles, false);
+    toggleSwitch.addEventListener('change', switchTheme, false);
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    function highlight() {
+      dropArea.classList.add('highlight');
+    }
+
+    function unhighlight() {
+      dropArea.classList.remove('highlight');
+    }
+
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      handleFiles({ target: { files: files } });
+    }
+
+    function handleFiles(event) {
+      const files = event.target.files;
+      if (files.length) {
+        const file = files[0];
+        if (file.type === 'text/csv' || file.name.endsWith('.csv')) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const content = e.target.result;
+            processCSV(content);
+          };
+          reader.readAsText(file);
+        } else {
+          alert('Please upload a CSV file.');
+        }
+      }
+    }
+
+    function processCSV(content) {
+      const lines = content.split('\n');
+      vocabulary = lines.map(line => {
+        const [hebrew, arabic] = line.split(';').map(item => item.trim());
+        return { hebrew, arabic };
+      }).filter(item => item.hebrew && item.arabic);
+
+      if (vocabulary.length > 0) {
+        saveGameState();
+        startGame();
+      } else {
+        alert('No valid vocabulary items found in the CSV. Please check your file and try again.');
+      }
+    }
+
+    function startGame() {
+      if (loadGameState()) {
+        uploadSection.style.display = 'none';
+        gameArea.style.display = 'block';
+        updateStats();
+        nextQuestion();
+      } else if (vocabulary.length > 0) {
+        uploadSection.style.display = 'none';
+        gameArea.style.display = 'block';
+        nextQuestion();
+      } else {
+        alert('No valid vocabulary items found. Please upload a CSV file.');
+      }
+    }
+
+    function nextQuestion() {
+      isAnswering = false;
+      const currentWord = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+      const isHebrew = Math.random() < 0.5;
+
+      questionEl.textContent = isHebrew ? currentWord.hebrew : currentWord.arabic;
+      currentCorrectAnswer = isHebrew ? currentWord.arabic : currentWord.hebrew;
+
+      const options = [currentCorrectAnswer];
+
+      while (options.length < 4) {
+        const randomWord = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+        const option = isHebrew ? randomWord.arabic : randomWord.hebrew;
+        if (!options.includes(option)) {
+          options.push(option);
+        }
+      }
+
+      options.sort(() => Math.random() - 0.5);
+
+      optionsEl.innerHTML = '';
+      options.forEach(option => {
+        const button = document.createElement('button');
+        button.className = 'option-btn';
+        button.textContent = option;
+        button.onclick = () => checkAnswer(button, option);
+        optionsEl.appendChild(button);
+      });
+    }
+
+    function checkAnswer(selectedButton, selected) {
+      if (isAnswering) return;
+      isAnswering = true;
+
+      if (selected === currentCorrectAnswer) {
+        selectedButton.classList.add('correct');
+        score += 10;
+        streak++;
+        progress++;
+        updateStats();
+        setTimeout(nextQuestion, 1000);
+      } else {
+        selectedButton.classList.add('incorrect');
+        streak = 0;
+        updateStats();
+        isAnswering = false;
+      }
+    }
+
+    function updateStats() {
+      scoreEl.textContent = score;
+      streakEl.textContent = streak;
+      levelEl.textContent = level;
+      const progressPercentage = (progress / wordsToNextLevel) * 100;
+      progressBar.style.width = `${progressPercentage}%`;
+
+      if (progress >= wordsToNextLevel) {
+        progressBar.style.width = '100%';
+        setTimeout(() => {
+          levelUp();
+        }, 500);
+      }
+
+      saveGameState();
+    }
+
+    function levelUp() {
+      level++;
+      progress = 0;
+      levelEl.textContent = level;
+      
+      // Calculate new words required for next level
+      wordsToNextLevel = 2 * Math.pow(level, 2);
+      
+      // Add pop-bob animation
+      progressBar.classList.add('pop-bob');
+      levelEl.parentElement.classList.add('pop-bob');
+      setTimeout(() => {
+        progressBar.classList.remove('pop-bob');
+        levelEl.parentElement.classList.remove('pop-bob');
+        progressBar.style.width = '0%';
+        updateStats();
+      }, 300);
+
+      // Increase challenge
+      if (level % 3 === 0 && vocabulary.length > 20) {
+        // Every 3 levels, remove one option to make it harder
+        const optionToRemove = Math.min(optionsEl.children.length - 2, 1);
+        for (let i = 0; i < optionToRemove; i++) {
+          optionsEl.removeChild(optionsEl.lastChild);
+        }
+      }
+    }
+
+    function switchTheme(e) {
+      if (e.target.checked) {
+        document.body.classList.add('dark-theme');
+      } else {
+        document.body.classList.remove('dark-theme');
+      }    
+    }
+
+    function resetGame() {
+      localStorage.removeItem('arabicVocabGameState');
+      vocabulary = [];
+      score = 0;
+      streak = 0;
+      level = 1;
+      progress = 0;
+      wordsToNextLevel = 2;
+      updateStats();
+      uploadSection.style.display = 'block';
+      gameArea.style.display = 'none';
+    }
+
+    window.onload = function() {
+      if (loadGameState()) {
+        startGame();
+      }
+    };
+  </script>
+</body>
+</html>
