@@ -15,7 +15,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: 90vh;
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
 }
