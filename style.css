@@ -7,6 +7,7 @@
     --correct-color: #4CAF50;
     --incorrect-color: #F44336;
   }
+  
   body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--background-color);
@@ -18,85 +19,101 @@
     min-height: 100vh;
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
+    box-sizing: border-box;
   }
+  
   .container {
     background-color: white;
     border-radius: 20px;
-    padding: 2rem;
+    padding: 1rem;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
+    max-width: 100%;
     width: 100%;
     text-align: center;
     transition: background-color 0.3s, box-shadow 0.3s;
   }
+  
   .upload-area {
     border: 3px dashed var(--secondary-color);
     border-radius: 20px;
-    padding: 2rem;
-    margin-bottom: 2rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
     transition: all 0.3s ease;
     cursor: pointer;
   }
+  
   .upload-area:hover {
     background-color: var(--tertiary-color);
     transform: scale(1.02);
   }
+  
   #fileInput {
     display: none;
   }
+  
   .btn {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 1rem 2rem;
-    font-size: 1.2rem;
+    padding: 1rem;
+    font-size: 1rem;
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
+  
   .btn:hover {
     background-color: var(--secondary-color);
     transform: translateY(-3px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
   }
+  
   #gameArea {
     display: none;
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
+  
   #question {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 1rem;
     color: var(--primary-color);
     font-weight: bold;
   }
+  
   #options {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     margin-top: 1rem;
   }
+  
   .option-btn {
     background-color: var(--secondary-color);
     color: white;
     border: none;
-    padding: 1rem;
-    font-size: 1.2rem;
+    padding: 0.75rem;
+    font-size: 1rem;
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
+    width: 100%;
   }
+  
   .option-btn:hover {
     background-color: var(--primary-color);
     transform: translateY(-3px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
+  
   .option-btn.correct {
     background-color: var(--correct-color);
   }
+  
   .option-btn.incorrect {
     background-color: var(--incorrect-color);
   }
+  
   .progress-container {
     width: 100%;
     background-color: var(--tertiary-color);
@@ -104,6 +121,7 @@
     margin-top: 1rem;
     overflow: hidden;
   }
+  
   #progressBar {
     width: 0%;
     height: 20px;
@@ -111,25 +129,32 @@
     border-radius: 10px;
     transition: width 0.5s ease-in-out;
   }
+  
   .stats {
     display: flex;
     justify-content: space-between;
     margin-top: 1rem;
+    flex-wrap: wrap;
   }
+  
   .stat {
     background-color: var(--secondary-color);
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 20px;
     font-size: 0.9rem;
+    margin: 0.5rem 0;
   }
+  
   @keyframes popBob {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.1); }
   }
+  
   .pop-bob {
     animation: popBob 0.3s ease-in-out;
   }
+  
   .theme-switch-wrapper {
     position: fixed;
     top: 20px;
@@ -137,15 +162,18 @@
     display: flex;
     align-items: center;
   }
+  
   .theme-switch {
     display: inline-block;
     height: 34px;
     position: relative;
     width: 60px;
   }
+  
   .theme-switch input {
     display: none;
   }
+  
   .slider {
     background-color: #ccc;
     bottom: 0;
@@ -157,6 +185,7 @@
     transition: .4s;
     border-radius: 34px;
   }
+  
   .slider:before {
     background-color: #fff;
     bottom: 4px;
@@ -172,51 +201,95 @@
     justify-content: center;
     font-size: 15px;
   }
+  
   input:checked + .slider {
     background-color: #2196F3;
   }
+  
   input:checked + .slider:before {
     transform: translateX(26px);
     content: "🌙";
   }
+  
   body.dark-theme {
     --background-color: #003333;
     --text-color: #ffffff;
   }
+  
   .dark-theme .container {
     background-color: #004444;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   }
+  
   .dark-theme .upload-area {
     border-color: #00a598;
     color: #ffffff;
   }
+  
   .dark-theme .btn {
     background-color: #00a598;
     color: #ffffff;
   }
+  
   .dark-theme .option-btn {
     background-color: #00a598;
     color: #ffffff;
   }
+  
   .dark-theme .option-btn:hover {
     background-color: #00cec4;
   }
+  
   .dark-theme .progress-container {
     background-color: #005555;
   }
+  
   .dark-theme .stat {
     background-color: #00a598;
     color: #ffffff;
   }
+  
   .dark-theme #question {
     color: #ffffff;
   }
+  
   .dark-theme .option-btn.correct {
     background-color: var(--correct-color);
     color: #ffffff;
   }
+  
   .dark-theme .option-btn.incorrect {
     background-color: var(--incorrect-color);
     color: #ffffff;
   }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .container {
+      padding: 1rem;
+    }
+  
+    .upload-area {
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+  
+    #options {
+      flex-direction: column; /* Single column on very small screens */
+    }
+  
+    .btn, .option-btn {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+  
+    .stats {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .stat {
+      margin-bottom: 0.5rem;
+    }
+  }
+  
