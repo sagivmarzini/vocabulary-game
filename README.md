@@ -1,74 +1,65 @@
-# vocabulary-game
-Arabic Vocabulary game is an interactive, web-based language learning game designed to help users improve their Arabic vocabulary. This engaging and addictive game provides a fun way to practice and memorize Arabic words through a quiz-style interface.
+# Vocabulary Game
 
-## Features
+A fun and interactive web-based vocabulary game designed to help users learn and practice vocabulary in different languages. The game allows users to upload their own vocabulary lists and provides an engaging interface for testing and improving language skills.
 
-- **Interactive Learning**: Quiz-style game with multiple-choice questions
-- **Bilingual Support**: Practice translating between Arabic and Hebrew
-- **Progress Tracking**: Score, streak, and level system to monitor your improvement
-- **Adaptive Difficulty**: The game becomes more challenging as you level up
-- **Persistent Progress**: Your game state is saved locally, allowing you to continue where you left off
-- **Custom Vocabulary**: Upload your own vocabulary list via CSV file
-- **Responsive Design**: Looks great on both desktop and mobile devices
-- **Dark Mode**: Toggle between light and dark themes for comfortable viewing
+## ✨ Features
 
-## How to Play
+- 📁 CSV file upload for custom vocabulary lists
+- 🔄 Dynamic question generation
+- 🔠 Multiple-choice answers
+- 🏆 Score tracking
+- 🔥 Streak counting
+- 📈 Level progression system
+- 📊 Progress bar visualization
+- 🌓 Dark mode toggle
+- 📱 Responsive design for mobile and desktop
 
-1. **Upload Vocabulary**: Start by uploading a CSV file containing your Arabic-Hebrew vocabulary pairs.
-2. **Answer Questions**: You'll be presented with a word in either Arabic or Hebrew, and you need to choose the correct translation from four options.
-3. **Track Progress**: Your score increases with correct answers, and you'll level up as you improve.
-4. **Challenge Yourself**: The game becomes more difficult as you level up, with fewer options to choose from.
+## 🚀 How to Use
 
-## Getting Started
+### To run online on the Github Page
 
-To run the game locally:
+Click [here](https://sagivmarzini.github.io/vocabulary-game/) to play
 
-1. Clone this repository:
-   ```
-   git clone https://github.com/yourusername/arabic-vocabulary-master.git
-   ```
-2. Navigate to the project directory:
-   ```
-   cd arabic-vocabulary-master
-   ```
-3. Open `index.html` in your web browser.
+### To run locally on your machine
 
-Alternatively, you can host the game on any web server or use GitHub Pages to make it accessible online.
+1. Clone this repository to your local machine.
+2. Open `index.html` in a web browser.
+3. Prepare a CSV file with your vocabulary list in the format: `hebrew;arabic` (one pair per line).
+4. Click on the upload area or drag and drop your CSV file to start the game.
+5. Answer the questions by selecting the correct translation.
+6. Watch your score, streak, and level increase as you play!
 
-## CSV File Format
+## 📂 File Structure
 
-The game expects a CSV file with the following format:
+- `index.html`: The main HTML structure of the game.
+- `style.css`: Contains all the styling for the game, including dark mode.
+- `script.js`: The JavaScript file that handles game logic, file uploading, and state management.
 
-```
-Hebrew word;Arabic word
-```
-
-For example:
-```
-שלום;سلام
-תודה;شكرا
-```
-
-## Technologies Used
+## 💻 Technologies Used
 
 - HTML5
 - CSS3
 - JavaScript (ES6+)
-- Local Storage API for saving game progress
+- Local Storage for game state persistence
 
-## Contributing
+## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## License
+## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## Acknowledgements
+## 🔮 Future Improvements
 
-- Font: [Poppins](https://fonts.google.com/specimen/Poppins) from Google Fonts
-- Icons: Emoji icons for theme toggle
+- 🌍 Add support for more language pairs
+- 🏅 Implement a leaderboard system
+- 🖥️ Create a backend for user accounts and progress tracking
+- 🎵 Add sound effects and animations for a more engaging experience
+- 🧠 Implement spaced repetition algorithm for better learning outcomes
 
----
+## 📬 Contact
 
-Enjoy learning Arabic with Arabic Vocabulary Master! If you have any questions or suggestions, please open an issue on this GitHub repository.
+If you have any questions, feel free to reach out or open an issue in this repository.
+
+Enjoy learning new vocabulary with this interactive game!
