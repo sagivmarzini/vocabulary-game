@@ -7,11 +7,11 @@ function saveGameState() {
       progress: progress,
       wordsToNextLevel: wordsToNextLevel
     };
-    localStorage.setItem('arabicVocabGameState', JSON.stringify(gameState));
+    localStorage.setItem('VocabGameState', JSON.stringify(gameState));
   }
 
   function loadGameState() {
-    const savedState = localStorage.getItem('arabicVocabGameState');
+    const savedState = localStorage.getItem('VocabGameState');
     if (savedState) {
       const gameState = JSON.parse(savedState);
       vocabulary = gameState.vocabulary;
@@ -231,7 +231,7 @@ function saveGameState() {
   }
 
   function resetGame() {
-    localStorage.removeItem('arabicVocabGameState');
+    localStorage.removeItem('VocabGameState');
     vocabulary = [];
     score = 0;
     streak = 0;
