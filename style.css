@@ -283,11 +283,6 @@
       font-size: 1rem;
     }
   
-    .stats {
-      flex-direction: column;
-      align-items: center;
-    }
-  
     .stat {
       margin-bottom: 0.5rem;
     }
