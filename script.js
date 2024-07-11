@@ -247,4 +247,6 @@ function saveGameState() {
     if (loadGameState()) {
       startGame();
     }
+
+    document.getElementById('resetButton').addEventListener('click', resetGame);
   };
