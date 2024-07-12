@@ -41,6 +41,25 @@ body {
     background-color: var(--tertiary-color);
     transform: scale(1.02);
 }
+select {
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1.1rem;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    transition: 0.3s all ease;
+}
+select:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+#dropdown-choose {
+    font-size: 1rem;
+    padding: 10px 10px;
+    background-color: #006A6A;
+}
 #fileInput {
     display: none;
 }
@@ -220,9 +239,15 @@ body.dark-theme {
     background-color: var(--incorrect-color);
     color: #ffffff;
 }
+.dark-theme select {
+    background-color: #00a598;
+}
+
+
 #resetButton {
     padding: 10px 20px;
     font-size: 0.8rem;
+    filter: brightness(0.8);
 }
 
 @media (max-width: 600px) {

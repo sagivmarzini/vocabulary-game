@@ -1,3 +1,12 @@
+const vocabFiles = [
+    'madrase-vocab.csv',
+    'most-searched-words.csv',
+    'nouns.csv',
+    'prepositions.csv',
+    'verbs.csv',
+    'vocabulary.csv'
+]
+
 let vocabulary = [];
 let shuffledVocabulary = [];
 let currentWordIndex = 0;
@@ -20,6 +29,8 @@ const streakEl = document.getElementById('streak');
 const levelEl = document.getElementById('level');
 const progressBar = document.getElementById('progressBar');
 const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+const vocabDropdown = document.getElementById('vocab-dropdown');
+const selectDropdownFile = document.getElementById('dropdown-choose');
 
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
     dropArea.addEventListener(eventName, preventDefaults, false);
@@ -37,6 +48,7 @@ const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"
 dropArea.addEventListener('drop', handleDrop, false);
 fileInput.addEventListener('change', handleFiles, false);
 toggleSwitch.addEventListener('change', switchTheme, false);
+selectDropdownFile.addEventListener('click', loadPredefinedVocabulary);
 
 function preventDefaults(e) {
     e.preventDefault();
@@ -133,6 +145,7 @@ function processCSV(content) {
 }
 
 function startGame() {
+    populateVocabSelect();
     if (loadGameState()) {
         loadTheme();
         if (vocabulary.length < 1) return false;
@@ -279,6 +292,38 @@ function resetGame() {
     updateStats();
     uploadSection.style.display = 'block';
     gameArea.style.display = 'none';
+    populateVocabSelect();
+}
+
+async function populateVocabSelect() {
+    vocabDropdown.innerHTML = '<option>Choose a vocabulary file</option>'; // Clear the dropdown
+
+    vocabFiles.forEach(file => {
+        const option = document.createElement('option');
+
+        option.value = `./vocabulary-files/${file}`;
+        option.textContent = file.replace('.csv', '');
+
+        vocabDropdown.appendChild(option);
+    })
+}
+
+function loadPredefinedVocabulary() {
+    const file = vocabDropdown.value;
+    let fileContent;
+
+    if (!file.endsWith('.csv')) { 
+        alert('Please choose an option');
+        return;
+    }
+
+    // Read the contents of the file
+    fetch(file)
+    .then(response => response.text())
+    .then(data => {
+        processCSV(data);
+    })
+    .catch(error => console.error('Error fetching the file:', error));
 }
 
 window.onload = function() {
