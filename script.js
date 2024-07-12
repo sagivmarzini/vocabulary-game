@@ -246,16 +246,6 @@ function levelUp() {
     
     // Calculate new words required for next level
     wordsToNextLevel = 2 * Math.pow(level, 2);
-    
-    // Add pop-bob animation
-    progressBar.classList.add('pop-bob');
-    levelEl.parentElement.classList.add('pop-bob');
-    setTimeout(() => {
-        progressBar.classList.remove('pop-bob');
-        levelEl.parentElement.classList.remove('pop-bob');
-        progressBar.style.width = '0%';
-        updateStats();
-    }, 300);
 }
 
 function loadTheme() {
@@ -336,3 +326,8 @@ window.onload = function() {
 };
 
 document.getElementById('resetButton').addEventListener('click', resetGame);
+// document.getElementById('resetButton').addEventListener('click', e => {
+//     e.target.style.transform = "scale(1.1)"
+//     e.target.style.backgroundColor = "#F44336";
+//     e.target.textContent = "Are you sure?"
+// });
