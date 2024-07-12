@@ -1,31 +1,6 @@
-function saveGameState() {
-    const gameState = {
-        vocabulary: vocabulary,
-        score: score,
-        streak: streak,
-        level: level,
-        progress: progress,
-        wordsToNextLevel: wordsToNextLevel
-    };
-    localStorage.setItem('VocabGameState', JSON.stringify(gameState));
-}
-
-function loadGameState() {
-    const savedState = localStorage.getItem('VocabGameState');
-    if (savedState) {
-        const gameState = JSON.parse(savedState);
-        vocabulary = gameState.vocabulary;
-        score = gameState.score;
-        streak = gameState.streak;
-        level = gameState.level;
-        progress = gameState.progress;
-        wordsToNextLevel = gameState.wordsToNextLevel;
-        return true;
-    }
-    return false;
-}
-
 let vocabulary = [];
+let shuffledVocabulary = [];
+let currentWordIndex = 0;
 let score = 0;
 let streak = 0;
 let level = 1;
@@ -33,6 +8,7 @@ let progress = 0;
 let wordsToNextLevel = 2;
 let currentCorrectAnswer = '';
 let isAnswering = false;
+let darkMode = false;
 const dropArea = document.getElementById('dropArea');
 const fileInput = document.getElementById('fileInput');
 const uploadSection = document.getElementById('uploadSection');
@@ -44,6 +20,39 @@ const streakEl = document.getElementById('streak');
 const levelEl = document.getElementById('level');
 const progressBar = document.getElementById('progressBar');
 const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+
+function saveGameState() {
+    const gameState = {
+        vocabulary: vocabulary,
+        shuffledVocabulary: shuffledVocabulary,
+        currentWordIndex: currentWordIndex,
+        score: score,
+        streak: streak,
+        level: level,
+        progress: progress,
+        wordsToNextLevel: wordsToNextLevel,
+        darkMode: darkMode
+    };
+    localStorage.setItem('VocabGameState', JSON.stringify(gameState));
+}
+
+function loadGameState() {
+    const savedState = localStorage.getItem('VocabGameState');
+    if (savedState) {
+        const gameState = JSON.parse(savedState);
+        vocabulary = gameState.vocabulary;
+        shuffledVocabulary = gameState.shuffledVocabulary;
+        currentWordIndex = gameState.currentWordIndex;
+        score = gameState.score;
+        streak = gameState.streak;
+        level = gameState.level;
+        progress = gameState.progress;
+        wordsToNextLevel = gameState.wordsToNextLevel;
+        darkMode = gameState.darkMode;
+        return true;
+    }
+    return false;
+}
 
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
     dropArea.addEventListener(eventName, preventDefaults, false);
@@ -98,6 +107,10 @@ function handleFiles(event) {
     }
 }
 
+function shuffleArray(array) {
+    return array.sort(() => Math.random - 0.5);
+}
+
 function processCSV(content) {
     const lines = content.split('\n');
     vocabulary = lines.map(line => {
@@ -106,6 +119,8 @@ function processCSV(content) {
     }).filter(item => item.hebrew && item.arabic);
 
     if (vocabulary.length > 0) {
+        shuffledVocabulary = shuffleArray([...vocabulary]);
+        currentWordIndex = 0;
         saveGameState();
         startGame();
     } else {
@@ -115,11 +130,14 @@ function processCSV(content) {
 
 function startGame() {
     if (loadGameState()) {
+        loadTheme();
         uploadSection.style.display = 'none';
         gameArea.style.display = 'block';
         updateStats();
         nextQuestion();
     } else if (vocabulary.length > 0) {
+        shuffledVocabulary = shuffleArray([...vocabulary]);
+        currentWordIndex = 0;
         uploadSection.style.display = 'none';
         gameArea.style.display = 'block';
         nextQuestion();
@@ -130,7 +148,13 @@ function startGame() {
 
 function nextQuestion() {
     isAnswering = false;
-    const currentWord = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+    if (currentWordIndex >= shuffledVocabulary.length) {
+        // If we've gone through all words, reshuffle and start over
+        shuffledVocabulary = shuffleArray([...vocabulary]);
+        currentWordIndex = 0;
+    }
+    
+    const currentWord = shuffledVocabulary[currentWordIndex];
     const isHebrew = Math.random() < 0.5;
 
     questionEl.textContent = isHebrew ? currentWord.hebrew : currentWord.arabic;
@@ -156,6 +180,8 @@ function nextQuestion() {
         button.onclick = () => checkAnswer(button, option);
         optionsEl.appendChild(button);
     });
+
+    currentWordIndex++;
 }
 
 function checkAnswer(selectedButton, selected) {
@@ -213,17 +239,32 @@ function levelUp() {
     }, 300);
 }
 
+function loadTheme() {
+    if (darkMode) {
+        document.body.classList.add('dark-theme');
+        toggleSwitch.checked = true;
+    }
+    else {
+        document.body.classList.remove('dark-theme');
+        toggleSwitch.checked = false;
+    }
+}
+
 function switchTheme(e) {
-    if (e.target.checked) {
+    darkMode = e.target.checked;
+    if (darkMode) {
         document.body.classList.add('dark-theme');
     } else {
         document.body.classList.remove('dark-theme');
-    }    
+    }
+    saveGameState();
 }
 
 function resetGame() {
     localStorage.removeItem('VocabGameState');
     vocabulary = [];
+    shuffledVocabulary = [];
+    currentWordIndex = 0;
     score = 0;
     streak = 0;
     level = 1;
@@ -238,6 +279,6 @@ window.onload = function() {
     if (loadGameState()) {
         startGame();
     }
-
 };
+
 document.getElementById('resetButton').addEventListener('click', resetGame);
