@@ -21,39 +21,6 @@ const levelEl = document.getElementById('level');
 const progressBar = document.getElementById('progressBar');
 const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
 
-function saveGameState() {
-    const gameState = {
-        vocabulary: vocabulary,
-        shuffledVocabulary: shuffledVocabulary,
-        currentWordIndex: currentWordIndex,
-        score: score,
-        streak: streak,
-        level: level,
-        progress: progress,
-        wordsToNextLevel: wordsToNextLevel,
-        darkMode: darkMode
-    };
-    localStorage.setItem('VocabGameState', JSON.stringify(gameState));
-}
-
-function loadGameState() {
-    const savedState = localStorage.getItem('VocabGameState');
-    if (savedState) {
-        const gameState = JSON.parse(savedState);
-        vocabulary = gameState.vocabulary;
-        shuffledVocabulary = gameState.shuffledVocabulary;
-        currentWordIndex = gameState.currentWordIndex;
-        score = gameState.score;
-        streak = gameState.streak;
-        level = gameState.level;
-        progress = gameState.progress;
-        wordsToNextLevel = gameState.wordsToNextLevel;
-        darkMode = gameState.darkMode;
-        return true;
-    }
-    return false;
-}
-
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
     dropArea.addEventListener(eventName, preventDefaults, false);
     document.body.addEventListener(eventName, preventDefaults, false);
@@ -88,6 +55,39 @@ function handleDrop(e) {
     const dt = e.dataTransfer;
     const files = dt.files;
     handleFiles({ target: { files: files } });
+}
+
+function saveGameState() {
+    const gameState = {
+        vocabulary: vocabulary,
+        shuffledVocabulary: shuffledVocabulary,
+        currentWordIndex: currentWordIndex,
+        score: score,
+        streak: streak,
+        level: level,
+        progress: progress,
+        wordsToNextLevel: wordsToNextLevel,
+        darkMode: darkMode
+    };
+    localStorage.setItem('VocabGameState', JSON.stringify(gameState));
+}
+
+function loadGameState() {
+    const savedState = localStorage.getItem('VocabGameState');
+    if (savedState) {
+        const gameState = JSON.parse(savedState);
+        vocabulary = gameState.vocabulary;
+        shuffledVocabulary = gameState.shuffledVocabulary;
+        currentWordIndex = gameState.currentWordIndex;
+        score = gameState.score;
+        streak = gameState.streak;
+        level = gameState.level;
+        progress = gameState.progress;
+        wordsToNextLevel = gameState.wordsToNextLevel;
+        darkMode = gameState.darkMode;
+        return true;
+    }
+    return false;
 }
 
 function handleFiles(event) {
@@ -131,6 +131,7 @@ function processCSV(content) {
 function startGame() {
     if (loadGameState()) {
         loadTheme();
+        if (vocabulary.length < 1) return false;
         uploadSection.style.display = 'none';
         gameArea.style.display = 'block';
         updateStats();
@@ -142,6 +143,7 @@ function startGame() {
         gameArea.style.display = 'block';
         nextQuestion();
     } else {
+        resetGame();
         alert('No valid vocabulary items found. Please upload a CSV file.');
     }
 }
@@ -278,6 +280,9 @@ function resetGame() {
 window.onload = function() {
     if (loadGameState()) {
         startGame();
+    }
+    else {
+        resetGame();
     }
 };
 
