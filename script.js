@@ -32,6 +32,11 @@ const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"
 const vocabDropdown = document.getElementById('vocab-dropdown');
 const selectDropdownFile = document.getElementById('dropdown-choose');
 
+const correctSound = new Audio('sounds/correct.mp3');
+correctSound.volume = 0.6 // 60%
+const incorrectSound = new Audio('sounds/error.mp3');
+const levelUpSound = new Audio('sounds/level-up.mp3');
+
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
     dropArea.addEventListener(eventName, preventDefaults, false);
     document.body.addEventListener(eventName, preventDefaults, false);
@@ -208,6 +213,8 @@ function checkAnswer(selectedButton, selected) {
     isAnswering = true;
 
     if (selected === currentCorrectAnswer) {
+        correctSound.currentTime = 0; // Reset playback position
+        correctSound.play();
         selectedButton.classList.add('correct');
         score += 10;
         streak++;
@@ -215,6 +222,8 @@ function checkAnswer(selectedButton, selected) {
         updateStats();
         setTimeout(nextQuestion, 1000);
     } else {
+        incorrectSound.currentTime = 0;
+        incorrectSound.play();
         selectedButton.classList.add('incorrect');
         streak = 0;
         updateStats();
@@ -243,6 +252,7 @@ function levelUp() {
     level++;
     progress = 0;
     levelEl.textContent = level;
+    levelUpSound.play();
     
     // Calculate new words required for next level
     wordsToNextLevel = 2 * Math.pow(level, 2);
