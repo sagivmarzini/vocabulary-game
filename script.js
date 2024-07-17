@@ -256,6 +256,8 @@ function levelUp() {
     
     // Calculate new words required for next level
     wordsToNextLevel = 2 * Math.pow(level, 2);
+    
+    updateStats();
 }
 
 function loadTheme() {
